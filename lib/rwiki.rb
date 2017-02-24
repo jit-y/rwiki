@@ -1,5 +1,2 @@
-require "rwiki/version"
-
-module Rwiki
-  # Your code goes here...
-end
+require 'rwiki/version'
+require 'rwiki/client'
