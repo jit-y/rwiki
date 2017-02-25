@@ -2,15 +2,17 @@ require 'faraday'
 require 'faraday_middleware'
 module Rwiki
   class Client
+    using Rwiki::Extension
     attr_reader :connection, :format_type
     BASE_URL = 'http://ja.wikipedia.org/w/api.php'.freeze
     def initialize(format_type: :json)
       @connection = connection
-      @format_type = format_type || :json
+      @format_type = format_type || json
     end
 
-    def test(q:)
-      connection.get "?format=#{format_type}&action=query&prop=revisions&titles=#{q}&rvprop=content"
+    def test(q)
+      query = { format: format_type, action: :query, prop: :revisions, titles: q, rvprop: :content }.to_query
+      connection.get query
     end
 
     private
