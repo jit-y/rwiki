@@ -12,7 +12,7 @@ module Rwiki
       def call
         limit = options.delete(:limit) || 5
         namespace = options.delete(:namespace) || 0
-        query = { format: :xml, action: :query, list: :random, rnamespace: namespace, rnlimit: limit }.to_query
+        query = { format: :xml, action: :query, list: :random, rnnamespace: namespace, rnlimit: limit }.to_query
         res = conn.get query
         res.body
       end
