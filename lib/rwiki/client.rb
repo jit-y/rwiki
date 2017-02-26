@@ -22,7 +22,7 @@ module Rwiki
     end
 
     def random(**options)
-      Rwiki::Request::Random.new(connection, **options).call
+      Rwiki::Requests::Random.new(connection, **options).call
     end
 
     private
