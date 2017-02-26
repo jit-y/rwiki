@@ -13,10 +13,7 @@ module Rwiki
     end
 
     def query
-      {
-        format: :xml,
-        action: :query
-      }.to_query
+      raise NotImplementedError
     end
   end
 end
