@@ -1,18 +1,28 @@
 require 'faraday'
 require 'faraday_middleware'
+
 module Rwiki
   class Client
     using Rwiki::Extension
     attr_reader :connection, :format_type
     BASE_URL = 'http://ja.wikipedia.org/w/api.php'.freeze
-    def initialize(format_type: :json)
+
+    def self.random(**options)
+      new.random(**options)
+    end
+
+    def initialize
       @connection = connection
-      @format_type = format_type || json
     end
 
     def test(q)
-      query = { format: format_type, action: :query, prop: :revisions, titles: q, rvprop: :content }.to_query
-      connection.get query
+      query = { format: :xml, action: :query, prop: :revisions, titles: q, rvprop: :content }.to_query
+      res = connection.get query
+      res.body.slop!
+    end
+
+    def random(**options)
+      Rwiki::Request::Random.new(connection, **options).call
     end
 
     private
@@ -20,9 +30,8 @@ module Rwiki
     def connection
       Faraday.new(url: BASE_URL) do |conn|
         conn.use FaradayMiddleware::FollowRedirects
-        conn.request :url_encoded
         conn.adapter :net_http
-        conn.response :json
+        conn.response :nokogiri
       end
     end
   end
