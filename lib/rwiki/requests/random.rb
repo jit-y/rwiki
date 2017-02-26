@@ -12,7 +12,7 @@ module Rwiki
       def query
         limit = options.delete(:limit) || 5
         namespace = options.delete(:namespace) || 0
-        Rwiki::Query.make do |q|
+        Rwiki::Query.build do |q|
           q.list = :random
           q.rnnamespace = namespace
           q.rnlimit = limit

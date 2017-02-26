@@ -1,7 +1,7 @@
 module Rwiki
   class Query
     DEFAULT_PARAMS = { format: :xml,action: :query }.freeze
-    def self.make(&block)
+    def self.build(&block)
       new(&block).to_query
     end
     using Rwiki::Extension
